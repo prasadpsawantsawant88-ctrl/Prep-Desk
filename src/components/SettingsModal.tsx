@@ -12,7 +12,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
 
   useEffect(() => {
     if (isOpen) {
-      const storedKey = localStorage.getItem('prepdesk_custom_api_key') || '';
+      const storedKey = sessionStorage.getItem('prepdesk_custom_api_key') || '';
       setApiKey(storedKey);
       setSavedSuccess(false);
     }
@@ -23,9 +23,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (apiKey.trim()) {
-      localStorage.setItem('prepdesk_custom_api_key', apiKey.trim());
+      sessionStorage.setItem('prepdesk_custom_api_key', apiKey.trim());
     } else {
-      localStorage.removeItem('prepdesk_custom_api_key');
+      sessionStorage.removeItem('prepdesk_custom_api_key');
     }
     setSavedSuccess(true);
     setTimeout(() => {
@@ -35,7 +35,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
   };
 
   const handleClear = () => {
-    localStorage.removeItem('prepdesk_custom_api_key');
+    sessionStorage.removeItem('prepdesk_custom_api_key');
     setApiKey('');
     setSavedSuccess(true);
     setTimeout(() => {
@@ -108,7 +108,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
               </button>
             </div>
             <p className="font-body-md text-xs text-[#424843]">
-              Provide a custom key if you want your requests to use your own quota, or leave blank to rely on the backend server environment variable.
+              Provide a custom key for this browser session. It is stored in session storage and auto-cleared on reload. Leave blank to use the backend server environment variable.
             </p>
           </div>
 
@@ -116,14 +116,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
           <div className="bg-[#eaf7ed] border border-[#835411]/25 p-4 rounded-sm flex flex-col gap-2.5 text-xs text-[#183828]">
             <div className="flex items-center gap-2 text-[#835411] font-semibold font-ui-button">
               <span className="material-symbols-outlined text-[18px]">lock</span>
-              <span>Deploying to Vercel — Is my API key safe?</span>
+              <span>Deploying to Vercel — API Key Security</span>
             </div>
             <ul className="list-disc list-inside space-y-1 text-[#424843] text-[11px] leading-relaxed">
               <li>
-                <strong>Server Environment Variables:</strong> When deploying on Vercel, set <code className="bg-white px-1 py-0.5 rounded border border-[#727973]/20 font-mono text-[10px]">GEMINI_API_KEY</code> in Vercel Project Settings &rarr; Environment Variables. It runs securely in Node.js serverless routes and is <strong>never exposed to browser clients</strong>.
+                <strong>Server Environment Variable:</strong> In Vercel Project Settings &rarr; Environment Variables, set <code className="bg-white px-1 py-0.5 rounded border border-[#727973]/20 font-mono text-[10px]">GEMINI_API_KEY</code>. It executes strictly inside Node.js backend routes and is <strong>never exposed to client browser code</strong>.
               </li>
               <li>
-                <strong>Local Custom Key:</strong> Keys entered in this modal are stored exclusively in your browser&apos;s local storage and sent via encrypted HTTPS headers to the server proxy endpoint.
+                <strong>Session-Only Custom Key:</strong> Keys entered in this modal are stored strictly in session memory (<code className="bg-white px-1 py-0.5 rounded border border-[#727973]/20 font-mono text-[10px]">sessionStorage</code>) and automatically reset when you reload or close the tab.
               </li>
             </ul>
           </div>

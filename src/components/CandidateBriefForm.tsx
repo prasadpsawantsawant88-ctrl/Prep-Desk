@@ -82,7 +82,7 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
     }, 1500);
 
     try {
-      const customApiKey = localStorage.getItem('prepdesk_custom_api_key') || '';
+      const customApiKey = sessionStorage.getItem('prepdesk_custom_api_key') || '';
 
       const res = await fetch('/api/generate-prep', {
         method: 'POST',
