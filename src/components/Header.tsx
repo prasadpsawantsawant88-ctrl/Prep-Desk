@@ -3,6 +3,8 @@ import { ReadinessStats } from '../lib/storage';
 
 interface HeaderProps {
   stats: ReadinessStats;
+  companyName?: string;
+  jobTitle?: string;
   activeView: 'brief' | 'desk';
   setActiveView: (view: 'brief' | 'desk') => void;
   onOpenBrief: () => void;
@@ -14,6 +16,8 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   stats,
+  companyName,
+  jobTitle,
   activeView,
   setActiveView,
   onOpenBrief,
@@ -51,6 +55,14 @@ export const Header: React.FC<HeaderProps> = ({
               PREP DESK
             </span>
           </button>
+
+          {companyName && (
+            <div className="hidden sm:flex items-center gap-1.5 bg-[#183828] text-white px-2.5 py-1 rounded-xs border border-[#fdbd71]/40 text-xs shadow-xs">
+              <span className="material-symbols-outlined text-[14px] text-[#fdbd71]">domain</span>
+              <span className="font-bold text-[#fdbd71]">{companyName}</span>
+              {jobTitle && <span className="text-[#e4f1e7]/80 truncate max-w-[120px]">({jobTitle})</span>}
+            </div>
+          )}
         </div>
 
         {/* Action Controls & Readiness Widget */}

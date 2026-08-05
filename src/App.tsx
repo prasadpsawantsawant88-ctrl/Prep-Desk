@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { SectionId, PrepDeskData } from './types';
 import { SECTIONS } from './data/initialData';
 import { loadPrepData, savePrepData, resetPrepData, calculateReadinessStats } from './lib/storage';
+import { sanitizeAndTailorPrepData } from './utils/sanitizeCompany';
 
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
@@ -125,7 +126,9 @@ export default function App() {
         }
       }
 
-      return updated;
+      // Guarantee that all sections replace legacy Acme references and tailor to the target company
+      const tailored = sanitizeAndTailorPrepData(updated, brief.companyName, brief.jobTitle);
+      return tailored;
     });
 
     setActiveView('desk');
@@ -172,6 +175,8 @@ export default function App() {
         {/* Sticky Top Bar */}
         <Header
           stats={stats}
+          companyName={data.brief.companyName}
+          jobTitle={data.brief.jobTitle}
           activeView={activeView}
           setActiveView={setActiveView}
           onOpenBrief={() => setActiveView('brief')}

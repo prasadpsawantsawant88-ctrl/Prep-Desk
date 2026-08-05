@@ -1,5 +1,6 @@
 import { PrepDeskData, PreparationStatus, SectionId } from '../types';
 import { INITIAL_PREP_DATA, SECTIONS } from '../data/initialData';
+import { sanitizeAndTailorPrepData } from '../utils/sanitizeCompany';
 
 const STORAGE_KEY = 'prep_desk_data_v1';
 
@@ -9,7 +10,7 @@ export function loadPrepData(): PrepDeskData {
     if (saved) {
       const parsed = JSON.parse(saved);
       // Merge with initial structure to ensure new fields are safely populated
-      return {
+      const merged: PrepDeskData = {
         ...INITIAL_PREP_DATA,
         ...parsed,
         sectionsStatus: {
@@ -17,11 +18,12 @@ export function loadPrepData(): PrepDeskData {
           ...(parsed.sectionsStatus || {}),
         },
       };
+      return sanitizeAndTailorPrepData(merged, merged.brief.companyName, merged.brief.jobTitle);
     }
   } catch (err) {
     console.warn('Failed to read from localStorage:', err);
   }
-  return INITIAL_PREP_DATA;
+  return sanitizeAndTailorPrepData(INITIAL_PREP_DATA, INITIAL_PREP_DATA.brief.companyName, INITIAL_PREP_DATA.brief.jobTitle);
 }
 
 export function savePrepData(data: PrepDeskData): void {

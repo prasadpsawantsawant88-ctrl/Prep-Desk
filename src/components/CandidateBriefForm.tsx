@@ -62,10 +62,9 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!jobDescription.trim()) {
-      alert('Please enter a Job Description.');
-      return;
-    }
+    const effectiveCompany = companyName.trim() || 'Target Company';
+    const effectiveRole = jobTitle.trim() || 'Target Role';
+    const effectiveJd = jobDescription.trim() || `Core responsibilities and target requirements for ${effectiveRole} at ${effectiveCompany}. Seeking strategic execution, stakeholder alignment, and metric impact.`;
 
     setIsLoading(true);
     setStatusIndex(0);
@@ -89,9 +88,9 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           apiKey: customApiKey,
-          companyName: companyName || 'Target Company',
-          jobTitle: jobTitle || 'Target Role',
-          jobDescription,
+          companyName: effectiveCompany,
+          jobTitle: effectiveRole,
+          jobDescription: effectiveJd,
           resumeText,
         }),
       });
@@ -103,9 +102,9 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
         setIsLoading(false);
         onSaveBrief(
           {
-            companyName: companyName || 'Target Company',
-            jobTitle: jobTitle || 'Target Role',
-            jobDescription,
+            companyName: effectiveCompany,
+            jobTitle: effectiveRole,
+            jobDescription: effectiveJd,
             resumeText,
             resumeFileName: fileName,
           },
@@ -118,9 +117,9 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
         clearInterval(interval);
         setIsLoading(false);
         onSaveBrief({
-          companyName: companyName || 'Target Company',
-          jobTitle: jobTitle || 'Target Role',
-          jobDescription,
+          companyName: effectiveCompany,
+          jobTitle: effectiveRole,
+          jobDescription: effectiveJd,
           resumeText,
           resumeFileName: fileName,
         });
@@ -305,7 +304,19 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
                   <span>This usually takes 10–15 seconds. Tailoring research to your targets.</span>
                   <button
                     type="button"
-                    onClick={onSkipToDesk}
+                    onClick={() => {
+                      const effectiveCompany = companyName.trim() || 'Target Company';
+                      const effectiveRole = jobTitle.trim() || 'Target Role';
+                      const effectiveJd = jobDescription.trim() || `Core responsibilities and target requirements for ${effectiveRole} at ${effectiveCompany}.`;
+                      onSaveBrief({
+                        companyName: effectiveCompany,
+                        jobTitle: effectiveRole,
+                        jobDescription: effectiveJd,
+                        resumeText,
+                        resumeFileName: fileName,
+                      });
+                      onSkipToDesk();
+                    }}
                     className="text-[#835411] underline hover:text-[#183828] font-ui-button cursor-pointer"
                   >
                     Skip directly to Prep Material &rarr;
