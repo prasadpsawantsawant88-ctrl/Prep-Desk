@@ -66,13 +66,13 @@ export const GuesstimatesSection: React.FC<GuesstimatesSectionProps> = ({
       {/* Header Banner */}
       <section className="bg-[#ffffff] border border-[#727973]/15 p-6 md:p-8 rounded-sm shadow-sm flex flex-col gap-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#727973]/10 pb-4">
-          <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#835411] text-[24px]">calculate</span>
-            <div>
-              <span className="font-label-caps text-[10px] text-[#835411] tracking-widest uppercase font-bold">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <span className="material-symbols-outlined text-[#835411] text-[24px] shrink-0">calculate</span>
+            <div className="min-w-0 flex-1">
+              <span className="font-label-caps text-[10px] text-[#835411] tracking-widest uppercase font-bold block">
                 Guesstimate Framework
               </span>
-              <h2 className="font-headline-md text-xl text-[#183828] font-bold">
+              <h2 className="font-headline-md text-xl text-[#183828] font-bold break-words leading-snug">
                 {currentGuest.prompt}
               </h2>
             </div>
@@ -80,7 +80,7 @@ export const GuesstimatesSection: React.FC<GuesstimatesSectionProps> = ({
 
           <button
             onClick={toggleStatus}
-            className={`font-label-caps text-xs px-3 py-1 rounded-sm uppercase tracking-wider cursor-pointer border self-start md:self-auto ${
+            className={`font-label-caps text-xs px-3 py-1 rounded-sm uppercase tracking-wider cursor-pointer border self-start md:self-auto shrink-0 ${
               currentGuest.status === 'Prepared'
                 ? 'bg-[#c7ebd4] text-[#002113] border-[#abcfb9]'
                 : 'bg-[#ffdad6] text-[#93000a] border-[#ba1a1a]/20'
@@ -91,12 +91,12 @@ export const GuesstimatesSection: React.FC<GuesstimatesSectionProps> = ({
         </div>
 
         {/* Dependent Variable */}
-        <div className="bg-[#eaf7ed] p-4 rounded-sm border border-[#183828]/20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="font-label-caps text-xs text-[#183828] font-bold uppercase">
+        <div className="bg-[#eaf7ed] p-4 rounded-sm border border-[#183828]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 flex-1 min-w-0">
+            <span className="font-label-caps text-xs text-[#183828] font-bold uppercase shrink-0">
               Target Dependent Variable (Y):
             </span>
-            <span className="font-headline-md text-base text-[#183828]">
+            <span className="font-headline-md text-base text-[#183828] font-semibold break-words">
               {currentGuest.dependentVariable}
             </span>
           </div>

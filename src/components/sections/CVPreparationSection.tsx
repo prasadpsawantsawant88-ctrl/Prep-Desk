@@ -273,13 +273,13 @@ export const CVPreparationSection: React.FC<CVPreparationSectionProps> = ({
                 key={bullet.id}
                 className="bg-[#f0fdf3]/50 p-5 rounded-sm border border-[#727973]/20 flex flex-col gap-4 relative"
               >
-                <div className="flex items-center justify-between border-b border-[#727973]/10 pb-3">
-                  <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#727973]/10 pb-3">
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
                     <input
                       type="text"
                       value={bullet.bulletTitle}
                       onChange={(e) => updateRcrBullet(bullet.id, 'bulletTitle', e.target.value)}
-                      className="font-headline-md text-base text-[#183828] bg-transparent border-b border-transparent focus:border-[#835411] outline-none font-semibold"
+                      className="w-full min-w-0 font-headline-md text-base md:text-lg text-[#183828] bg-transparent border-b border-transparent focus:border-[#835411] outline-none font-semibold py-0.5"
                     />
                   </div>
 
@@ -306,8 +306,8 @@ export const CVPreparationSection: React.FC<CVPreparationSectionProps> = ({
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="flex flex-col gap-1">
-                    <label className="font-label-caps text-[10px] text-[#424843] uppercase font-bold">
+                  <div className="flex flex-col gap-1 min-w-0">
+                    <label className="font-label-caps text-[10px] text-[#424843] uppercase font-bold break-words leading-tight">
                       1. Role & Responsibility
                     </label>
                     <textarea
@@ -321,8 +321,8 @@ export const CVPreparationSection: React.FC<CVPreparationSectionProps> = ({
                     />
                   </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label className="font-label-caps text-[10px] text-[#835411] uppercase font-bold">
+                  <div className="flex flex-col gap-1 min-w-0">
+                    <label className="font-label-caps text-[10px] text-[#835411] uppercase font-bold break-words leading-tight">
                       2. Contribution (Direct Actions & Tools)
                     </label>
                     <textarea
@@ -334,8 +334,8 @@ export const CVPreparationSection: React.FC<CVPreparationSectionProps> = ({
                     />
                   </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label className="font-label-caps text-[10px] text-[#183828] uppercase font-bold">
+                  <div className="flex flex-col gap-1 min-w-0">
+                    <label className="font-label-caps text-[10px] text-[#183828] uppercase font-bold break-words leading-tight">
                       3. Quantified Result (Metrics & Impact)
                     </label>
                     <textarea

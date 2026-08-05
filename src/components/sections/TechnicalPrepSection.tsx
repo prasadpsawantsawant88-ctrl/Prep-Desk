@@ -129,10 +129,10 @@ export const TechnicalPrepSection: React.FC<TechnicalPrepSectionProps> = ({
                 }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-3 flex-1 min-w-0">
                     <button
                       onClick={() => toggleStatus(topic.id)}
-                      className={`w-6 h-6 rounded-sm flex items-center justify-center border cursor-pointer transition-colors ${
+                      className={`w-6 h-6 rounded-sm flex items-center justify-center border cursor-pointer transition-colors shrink-0 ${
                         isPrep
                           ? 'bg-[#183828] text-white border-[#183828]'
                           : 'bg-white text-transparent border-[#727973]/40 hover:border-[#835411]'
@@ -141,7 +141,7 @@ export const TechnicalPrepSection: React.FC<TechnicalPrepSectionProps> = ({
                       <span className="material-symbols-outlined text-[16px]">check</span>
                     </button>
 
-                    <span className="font-headline-md text-base text-[#183828] font-semibold">
+                    <span className="font-headline-md text-base text-[#183828] font-semibold break-words leading-snug">
                       {topic.topic}
                     </span>
 

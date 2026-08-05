@@ -224,23 +224,23 @@ export const QABankSection: React.FC<QABankSectionProps> = ({ data, onChangeData
             <div
               key={q.id}
               onClick={() => setFlippedCardId(isFlipped ? null : q.id)}
-              className="group min-h-[300px] w-full relative cursor-pointer"
+              className="group min-h-[340px] w-full relative cursor-pointer"
             >
               <div
-                className={`relative w-full h-full transition-transform duration-500 [transform-style:preserve-3d] ${
+                className={`relative w-full h-full min-h-[340px] transition-transform duration-500 [transform-style:preserve-3d] ${
                   isFlipped ? '[transform:rotateY(180deg)]' : ''
                 }`}
               >
                 {/* Front Side */}
-                <div className="absolute w-full h-full bg-[#ffffff] border border-[#727973]/20 shadow-[0_8px_24px_-8px_rgba(47,79,62,0.12)] p-6 rounded-sm flex flex-col justify-between [backface-visibility:hidden]">
+                <div className="absolute inset-0 w-full h-full bg-[#ffffff] border border-[#727973]/20 shadow-[0_8px_24px_-8px_rgba(47,79,62,0.12)] p-6 rounded-sm flex flex-col justify-between overflow-y-auto hide-scrollbar [backface-visibility:hidden]">
                   <div className="flex justify-between items-start gap-2">
-                    <div className="flex items-center gap-2">
-                      <span className="font-label-caps text-[10px] bg-[#fdbd71]/20 text-[#835411] border border-[#835411]/30 px-2 py-1 tracking-widest uppercase rounded-xs">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-label-caps text-[10px] bg-[#fdbd71]/20 text-[#835411] border border-[#835411]/30 px-2 py-1 tracking-widest uppercase rounded-xs font-bold">
                         {q.category}
                       </span>
                       <button
                         onClick={(e) => toggleStatus(q.id, e)}
-                        className={`font-label-caps text-[9px] px-2 py-0.5 rounded-xs uppercase tracking-wider border cursor-pointer ${
+                        className={`font-label-caps text-[9px] px-2 py-0.5 rounded-xs uppercase tracking-wider border cursor-pointer font-bold ${
                           isPrep
                             ? 'bg-[#c7ebd4] text-[#002113] border-[#abcfb9]'
                             : 'bg-[#ffdad6] text-[#93000a] border-[#ba1a1a]/20'
@@ -250,7 +250,7 @@ export const QABankSection: React.FC<QABankSectionProps> = ({ data, onChangeData
                       </button>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 shrink-0">
                       {q.isCustom && (
                         <button
                           onClick={(e) => deleteQuestion(q.id, e)}
@@ -266,18 +266,18 @@ export const QABankSection: React.FC<QABankSectionProps> = ({ data, onChangeData
                     </div>
                   </div>
 
-                  <div className="my-4">
-                    <h3 className="font-display-lg-mobile text-xl md:text-2xl text-[#183828] text-center leading-tight font-serif">
+                  <div className="my-auto py-4">
+                    <h3 className="font-display-lg-mobile text-lg md:text-xl text-[#183828] text-center leading-snug font-serif break-words">
                       "{q.question}"
                     </h3>
                   </div>
 
-                  <div className="flex flex-col items-center gap-1">
-                    <span className="font-ui-button text-xs text-[#835411] font-semibold flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[14px]">lightbulb</span>
-                      Hint: {q.hint}
+                  <div className="flex flex-col items-center gap-1 mt-2">
+                    <span className="font-ui-button text-xs text-[#835411] font-semibold flex items-center gap-1 text-center break-words">
+                      <span className="material-symbols-outlined text-[14px] shrink-0">lightbulb</span>
+                      <span>Hint: {q.hint}</span>
                     </span>
-                    <span className="font-ui-button text-[11px] text-[#424843]/60 text-center">
+                    <span className="font-ui-button text-[11px] text-[#424843]/70 text-center">
                       Tap card to edit your draft answer & view strategy
                     </span>
                   </div>

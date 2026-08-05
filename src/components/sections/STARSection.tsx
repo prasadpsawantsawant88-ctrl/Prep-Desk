@@ -100,15 +100,15 @@ export const STARSection: React.FC<STARSectionProps> = ({ data, onChangeData }) 
               className="bg-[#ffffff] border border-[#727973]/15 p-6 md:p-8 rounded-sm shadow-sm flex flex-col gap-6 relative"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#727973]/10 pb-4">
-                <div className="flex items-center gap-3">
-                  <span className="font-label-caps text-xs bg-[#fdbd71]/20 text-[#835411] px-2.5 py-1 rounded-xs uppercase tracking-widest font-bold">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <span className="font-label-caps text-xs bg-[#fdbd71]/20 text-[#835411] px-2.5 py-1 rounded-xs uppercase tracking-widest font-bold shrink-0">
                     STAR Story
                   </span>
                   <input
                     type="text"
                     value={story.promptTitle}
                     onChange={(e) => updateField(story.id, 'promptTitle', e.target.value)}
-                    className="font-headline-md text-lg text-[#183828] bg-transparent border-b border-transparent focus:border-[#835411] outline-none font-bold"
+                    className="w-full min-w-0 font-headline-md text-base md:text-lg text-[#183828] bg-transparent border-b border-transparent focus:border-[#835411] outline-none font-bold py-0.5"
                   />
                 </div>
 

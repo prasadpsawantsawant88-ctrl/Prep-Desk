@@ -57,13 +57,13 @@ export const CasePracticeSection: React.FC<CasePracticeSectionProps> = ({
       {/* Worked Example Banner */}
       <section className="bg-[#ffffff] border border-[#727973]/15 p-6 md:p-8 rounded-sm shadow-sm flex flex-col gap-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#727973]/10 pb-4">
-          <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#835411] text-[24px]">account_tree</span>
-            <div>
-              <span className="font-label-caps text-[10px] text-[#835411] tracking-widest uppercase font-bold">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <span className="material-symbols-outlined text-[#835411] text-[24px] shrink-0">account_tree</span>
+            <div className="min-w-0 flex-1">
+              <span className="font-label-caps text-[10px] text-[#835411] tracking-widest uppercase font-bold block">
                 Worked Case Example
               </span>
-              <h2 className="font-headline-md text-xl text-[#183828] font-bold">
+              <h2 className="font-headline-md text-xl text-[#183828] font-bold break-words leading-snug">
                 {currentCase.title}
               </h2>
             </div>
