@@ -7,6 +7,8 @@ interface HeaderProps {
   setActiveView: (view: 'brief' | 'desk') => void;
   onOpenBrief: () => void;
   onOpenSettings?: () => void;
+  onToggleGuide?: () => void;
+  isGuideOpen?: boolean;
   onToggleMobileSidebar?: () => void;
 }
 
@@ -16,10 +18,12 @@ export const Header: React.FC<HeaderProps> = ({
   setActiveView,
   onOpenBrief,
   onOpenSettings,
+  onToggleGuide,
+  isGuideOpen,
   onToggleMobileSidebar,
 }) => {
   return (
-    <header className="sticky top-0 z-30 w-full bg-[#f0fdf3]/90 backdrop-blur-md border-b border-[#727973]/15 shadow-xs">
+    <header className="sticky top-0 z-50 w-full bg-[#f0fdf3]/95 backdrop-blur-md border-b border-[#727973]/15 shadow-xs">
       <div className="h-16 px-4 lg:px-8 flex items-center justify-between">
         {/* Mobile Hamburger & Brand */}
         <div className="flex items-center gap-3">
@@ -61,15 +65,48 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="sm:hidden">Customise</span>
           </button>
 
-          {/* Settings Action Button */}
-          {onOpenSettings && (
+          {/* Guide Help Trigger */}
+          {onToggleGuide && (
             <button
-              onClick={onOpenSettings}
-              className="bg-[#ffffff] hover:bg-[#e4f1e7] text-[#183828] p-2 rounded-sm border border-[#727973]/20 transition-all cursor-pointer shadow-xs"
-              title="Settings & API Key"
+              onClick={onToggleGuide}
+              className="bg-[#ffffff] hover:bg-[#e4f1e7] text-[#835411] px-2.5 py-1.5 rounded-sm border border-[#835411]/30 transition-all cursor-pointer shadow-xs font-ui-button text-xs font-semibold flex items-center gap-1"
+              title="View Instruction Demo & API Key Setup"
             >
-              <span className="material-symbols-outlined text-[18px] block">settings</span>
+              <span className="material-symbols-outlined text-[16px]">help_outline</span>
+              <span className="hidden sm:inline">Guide</span>
             </button>
+          )}
+
+          {/* Settings Action Button with Callout Arrow */}
+          {onOpenSettings && (
+            <div className="relative">
+              <button
+                id="settings-header-btn"
+                onClick={onOpenSettings}
+                className={`p-2 rounded-sm border transition-all cursor-pointer shadow-xs relative flex items-center justify-center ${
+                  isGuideOpen
+                    ? 'bg-[#fdbd71] text-[#183828] border-[#835411] ring-2 ring-[#835411]/60 font-bold'
+                    : 'bg-[#ffffff] hover:bg-[#e4f1e7] text-[#183828] border-[#727973]/20'
+                }`}
+                title="Settings & API Key"
+              >
+                <span className={`material-symbols-outlined text-[20px] block ${isGuideOpen ? 'animate-spin-slow' : ''}`}>
+                  settings
+                </span>
+              </button>
+
+              {/* Direct Upward Pointer Callout Tag */}
+              {isGuideOpen && (
+                <div className="absolute top-full mt-1.5 right-0 sm:left-1/2 sm:-translate-x-1/2 z-[60] whitespace-nowrap flex flex-col items-end sm:items-center pointer-events-none animate-bounce">
+                  {/* Triangle Arrow pointing directly UP to the gear */}
+                  <div className="w-0 h-0 border-x-[7px] border-x-transparent border-b-[8px] border-b-[#835411] mr-3 sm:mr-0"></div>
+                  <div className="bg-[#fdbd71] text-[#183828] border-2 border-[#835411] text-[11px] font-bold font-mono px-2.5 py-1 rounded-sm shadow-xl flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[15px] text-[#835411]">arrow_upward</span>
+                    <span>Add API Key Here ⚙️</span>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
 
           {/* Readiness Pill */}

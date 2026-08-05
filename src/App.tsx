@@ -8,6 +8,7 @@ import { Footer } from './components/Footer';
 import { Sidebar } from './components/Sidebar';
 import { CandidateBriefForm } from './components/CandidateBriefForm';
 import { SettingsModal } from './components/SettingsModal';
+import { InstructionDemoBanner } from './components/InstructionDemoBanner';
 
 import { CompanyResearchSection } from './components/sections/CompanyResearchSection';
 import { CVPreparationSection } from './components/sections/CVPreparationSection';
@@ -24,6 +25,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState<SectionId>('company-research');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isDemoBannerOpen, setIsDemoBannerOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
   // Persist whenever data changes
@@ -174,7 +176,17 @@ export default function App() {
           setActiveView={setActiveView}
           onOpenBrief={() => setActiveView('brief')}
           onOpenSettings={() => setIsSettingsOpen(true)}
+          onToggleGuide={() => setIsDemoBannerOpen((prev) => !prev)}
+          isGuideOpen={isDemoBannerOpen}
           onToggleMobileSidebar={() => setIsMobileSidebarOpen(true)}
+        />
+
+        {/* Guided Instruction Demo Banner */}
+        <InstructionDemoBanner
+          isOpen={isDemoBannerOpen}
+          onClose={() => setIsDemoBannerOpen(false)}
+          onOpenSettings={() => setIsSettingsOpen(true)}
+          onOpenBrief={() => setActiveView('brief')}
         />
 
         {/* Content Workspace */}
