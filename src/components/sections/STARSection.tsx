@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PrepDeskData, PreparationStatus, STARStory } from '../../types';
+import { SectionAiToolbar } from '../SectionAiToolbar';
 
 interface STARSectionProps {
   data: PrepDeskData;
@@ -66,6 +67,31 @@ export const STARSection: React.FC<STARSectionProps> = ({ data, onChangeData }) 
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Gemini AI Customisation Toolbar */}
+      <SectionAiToolbar
+        sectionId="star-stories"
+        sectionTitle="STAR Behavioral Stories"
+        data={data}
+        buttonLabel="✨ AI Generate STAR Story"
+        onApplyGeneratedItems={(newItems) => {
+          onChangeData((prev) => {
+            const formatted = newItems.map((item, idx) => ({
+              id: item.id || `star-ai-${Date.now()}-${idx}`,
+              promptTitle: item.promptTitle || 'Behavioral Scenario',
+              situation: item.situation || 'Context matching CV',
+              task: item.task || 'Objective',
+              action: item.action || 'Actions taken',
+              result: item.result || 'Quantified outcome',
+              status: item.status || 'Needs work',
+            }));
+            return {
+              ...prev,
+              starStories: [...formatted, ...prev.starStories],
+            };
+          });
+        }}
+      />
+
       {/* Explanation Callout */}
       <section className="bg-[#183828] text-white p-6 md:p-8 rounded-sm shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col gap-2 max-w-2xl">

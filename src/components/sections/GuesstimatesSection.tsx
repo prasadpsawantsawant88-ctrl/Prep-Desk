@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GuesstimatesItem, PrepDeskData, PreparationStatus } from '../../types';
+import { SectionAiToolbar } from '../SectionAiToolbar';
 
 interface GuesstimatesSectionProps {
   data: PrepDeskData;
@@ -63,6 +64,30 @@ export const GuesstimatesSection: React.FC<GuesstimatesSectionProps> = ({
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Gemini AI Customisation Toolbar */}
+      <SectionAiToolbar
+        sectionId="guesstimates"
+        sectionTitle="Guesstimates & Quantitative Market Estimation"
+        data={data}
+        buttonLabel="✨ AI Generate Guesstimate"
+        onApplyGeneratedItems={(newItems) => {
+          onChangeData((prev) => {
+            const formatted = newItems.map((item, idx) => ({
+              id: item.id || `guest-ai-${Date.now()}-${idx}`,
+              prompt: item.prompt || 'Estimate market size',
+              dependentVariable: item.dependentVariable || 'Total target metric ($)',
+              variables: item.variables || ['Base population', 'Adoption rate (%)', 'Average contract value ($)'],
+              notes: item.notes || 'Step-by-step formula',
+              status: item.status || 'Needs work',
+            }));
+            return {
+              ...prev,
+              guesstimates: [...formatted, ...prev.guesstimates],
+            };
+          });
+        }}
+      />
+
       {/* Header Banner */}
       <section className="bg-[#ffffff] border border-[#727973]/15 p-6 md:p-8 rounded-sm shadow-sm flex flex-col gap-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#727973]/10 pb-4">

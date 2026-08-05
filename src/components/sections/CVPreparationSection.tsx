@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PrepDeskData, PreparationStatus, RCRBullet } from '../../types';
+import { SectionAiToolbar } from '../SectionAiToolbar';
 
 interface CVPreparationSectionProps {
   data: PrepDeskData;
@@ -76,6 +77,30 @@ export const CVPreparationSection: React.FC<CVPreparationSectionProps> = ({
 
   return (
     <div className="flex flex-col gap-10">
+      {/* Gemini AI Customisation Toolbar */}
+      <SectionAiToolbar
+        sectionId="cv-prep"
+        sectionTitle="CV & Resume Alignment"
+        data={data}
+        buttonLabel="✨ AI Rewrite CV Bullets"
+        onApplyGeneratedItems={(newItems) => {
+          onChangeData((prev) => {
+            const formatted = newItems.map((item, idx) => ({
+              id: item.id || `rcr-ai-${Date.now()}-${idx}`,
+              bulletTitle: item.bulletTitle || 'AI Quantified Win',
+              roleAndResponsibility: item.roleAndResponsibility || 'Candidate Role',
+              contribution: item.contribution || 'Actions taken',
+              result: item.result || 'Quantified outcome',
+              status: item.status || 'Needs work',
+            }));
+            return {
+              ...prev,
+              rcrBullets: [...formatted, ...prev.rcrBullets],
+            };
+          });
+        }}
+      />
+
       {/* Resume Fit Panel (Imported Design Screen 2) */}
       <section className="bg-[#ffffff] border border-[#727973]/15 p-6 md:p-8 rounded-sm shadow-sm flex flex-col gap-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">

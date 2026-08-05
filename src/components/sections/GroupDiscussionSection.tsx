@@ -1,5 +1,6 @@
 import React from 'react';
 import { PrepDeskData, PreparationStatus } from '../../types';
+import { SectionAiToolbar } from '../SectionAiToolbar';
 
 interface GroupDiscussionSectionProps {
   data: PrepDeskData;
@@ -33,6 +34,29 @@ export const GroupDiscussionSection: React.FC<GroupDiscussionSectionProps> = ({
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Gemini AI Customisation Toolbar */}
+      <SectionAiToolbar
+        sectionId="gd"
+        sectionTitle="Group Discussion Debates & Trends"
+        data={data}
+        buttonLabel="✨ AI Generate GD Topic"
+        onApplyGeneratedItems={(newItems) => {
+          onChangeData((prev) => {
+            const formatted = newItems.map((item, idx) => ({
+              id: item.id || `gd-ai-${Date.now()}-${idx}`,
+              title: item.title || 'Industry Disruption Debate',
+              description: item.description || 'Trending market topic',
+              notes: item.notes || 'Opening thesis & counter-arguments',
+              status: item.status || 'Needs work',
+            }));
+            return {
+              ...prev,
+              gdChecklist: [...formatted, ...prev.gdChecklist],
+            };
+          });
+        }}
+      />
+
       {/* Overview Callout */}
       <section className="bg-[#183828] text-white p-6 md:p-8 rounded-sm shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex flex-col gap-2 max-w-2xl">

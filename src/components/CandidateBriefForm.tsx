@@ -22,11 +22,11 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
   const [dragActive, setDragActive] = useState(false);
 
   const statusMessages = [
-    'Analyzing job requirements...',
-    'Researching company culture...',
-    'Extracting resume highlights...',
-    'Drafting personalized questions...',
-    'Preparing interview brief...',
+    `Gemini 3.6 Flash analyzing ${jobTitle || 'Role'} requirements...`,
+    `Extracting candidate achievements & metrics from CV...`,
+    `Customizing Q&A Bank for ${companyName || 'Target Company'}...`,
+    `Generating RCR bullet rewrites & STAR stories...`,
+    `Finalizing custom interview package...`,
   ];
 
   const handleFileUpload = (file: File) => {

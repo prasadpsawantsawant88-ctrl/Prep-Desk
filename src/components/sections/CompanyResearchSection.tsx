@@ -1,5 +1,6 @@
 import React from 'react';
 import { PrepDeskData, PreparationStatus } from '../../types';
+import { SectionAiToolbar } from '../SectionAiToolbar';
 
 interface CompanyResearchSectionProps {
   data: PrepDeskData;
@@ -44,6 +45,29 @@ export const CompanyResearchSection: React.FC<CompanyResearchSectionProps> = ({
 
   return (
     <div className="flex flex-col gap-10">
+      {/* Gemini AI Customisation Toolbar */}
+      <SectionAiToolbar
+        sectionId="company-research"
+        sectionTitle="Company Deep Dive & Market Intelligence"
+        data={data}
+        buttonLabel="✨ AI Research Company Facts"
+        onApplyGeneratedItems={(newItems) => {
+          onChangeData((prev) => {
+            const formatted = newItems.map((item, idx) => ({
+              id: item.id || `fact-ai-${Date.now()}-${idx}`,
+              label: item.label || 'Strategic Insight',
+              description: item.description || 'Company intelligence',
+              notes: item.notes || 'Interview talking point',
+              status: item.status || 'Needs work',
+            }));
+            return {
+              ...prev,
+              companyFacts: [...formatted, ...prev.companyFacts],
+            };
+          });
+        }}
+      />
+
       {/* Company Snapshot Panel (Imported Design Screen 2) */}
       <section className="relative bg-[#ffffff] shadow-[0_12px_24px_-4px_rgba(47,79,62,0.08)] border border-[#727973]/15 p-6 md:p-10 rounded-sm overflow-hidden group">
         <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#835411]"></div>

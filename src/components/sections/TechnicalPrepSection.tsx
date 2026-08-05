@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PrepDeskData, PreparationStatus, TechnicalTopic } from '../../types';
+import { SectionAiToolbar } from '../SectionAiToolbar';
 
 interface TechnicalPrepSectionProps {
   data: PrepDeskData;
@@ -69,6 +70,29 @@ export const TechnicalPrepSection: React.FC<TechnicalPrepSectionProps> = ({
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Gemini AI Customisation Toolbar */}
+      <SectionAiToolbar
+        sectionId="technical-prep"
+        sectionTitle="Technical & Domain Competency"
+        data={data}
+        buttonLabel="✨ AI Extract Tech Topics"
+        onApplyGeneratedItems={(newItems) => {
+          onChangeData((prev) => {
+            const formatted = newItems.map((item, idx) => ({
+              id: item.id || `tech-ai-${Date.now()}-${idx}`,
+              topic: item.topic || 'Core Skill Competency',
+              source: (item.source || 'JD') as 'JD' | 'CV' | 'Curriculum',
+              notes: item.notes || 'Key principles and drill questions',
+              status: item.status || 'Needs work',
+            }));
+            return {
+              ...prev,
+              technicalTopics: [...formatted, ...prev.technicalTopics],
+            };
+          });
+        }}
+      />
+
       {/* Golden Rules Callout Box */}
       <section className="bg-[#183828] text-white p-6 md:p-8 rounded-sm shadow-md flex flex-col md:flex-row items-start justify-between gap-6">
         <div className="flex flex-col gap-3 max-w-2xl">

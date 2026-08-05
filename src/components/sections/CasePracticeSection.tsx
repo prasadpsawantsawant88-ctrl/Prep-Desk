@@ -1,5 +1,6 @@
 import React from 'react';
 import { PrepDeskData, PreparationStatus } from '../../types';
+import { SectionAiToolbar } from '../SectionAiToolbar';
 
 interface CasePracticeSectionProps {
   data: PrepDeskData;
@@ -54,6 +55,35 @@ export const CasePracticeSection: React.FC<CasePracticeSectionProps> = ({
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Gemini AI Customisation Toolbar */}
+      <SectionAiToolbar
+        sectionId="case-practice"
+        sectionTitle="Company Business Case Drill"
+        data={data}
+        buttonLabel="✨ AI Generate Case Study"
+        onApplyGeneratedItems={(newItems) => {
+          onChangeData((prev) => {
+            const formatted = newItems.map((item, idx) => ({
+              id: item.id || `case-ai-${Date.now()}-${idx}`,
+              title: item.title || `${data.brief.companyName || 'Target Company'} Business Case`,
+              prompt: item.prompt || 'Custom case study prompt',
+              steps: item.steps || [
+                { id: 1, stepName: 'Understand Objectives', description: 'Clarify KPIs and scope.', completed: false },
+                { id: 2, stepName: 'Formulate Framework', description: 'Analyze market & operations.', completed: false },
+                { id: 3, stepName: 'Deliver Recommendation', description: '60-second executive summary.', completed: false },
+              ],
+              userAnswer: item.userAnswer || '',
+              sampleFrameworkAnswer: item.sampleFrameworkAnswer || 'Structured breakdown',
+              status: item.status || 'Needs work',
+            }));
+            return {
+              ...prev,
+              cases: [...formatted, ...prev.cases],
+            };
+          });
+        }}
+      />
+
       {/* Worked Example Banner */}
       <section className="bg-[#ffffff] border border-[#727973]/15 p-6 md:p-8 rounded-sm shadow-sm flex flex-col gap-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#727973]/10 pb-4">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PrepDeskData, PreparationStatus, QAQuestion } from '../../types';
+import { SectionAiToolbar } from '../SectionAiToolbar';
 
 interface QABankSectionProps {
   data: PrepDeskData;
@@ -78,6 +79,32 @@ export const QABankSection: React.FC<QABankSectionProps> = ({ data, onChangeData
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Gemini AI Customisation Toolbar */}
+      <SectionAiToolbar
+        sectionId="qa-bank"
+        sectionTitle="Personalized Interview Questions"
+        data={data}
+        buttonLabel="✨ Generate AI Questions"
+        onApplyGeneratedItems={(newItems) => {
+          onChangeData((prev) => {
+            const formatted = newItems.map((item, idx) => ({
+              id: item.id || `qa-ai-${Date.now()}-${idx}`,
+              category: item.category || 'Company-Specific',
+              question: item.question || 'Custom Question',
+              draftAnswer: item.draftAnswer || '',
+              sampleAnswer: item.sampleAnswer || '',
+              hint: item.hint || 'Tailored prompt',
+              status: item.status || 'Needs work',
+              isCustom: true,
+            }));
+            return {
+              ...prev,
+              qaBank: [...formatted, ...prev.qaBank],
+            };
+          });
+        }}
+      />
+
       {/* Header & Filter Controls (Imported Screen 2 Style) */}
       <section className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#727973]/15 pb-4">
         <div className="flex items-center gap-4">
