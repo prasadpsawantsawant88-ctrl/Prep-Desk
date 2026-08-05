@@ -12,7 +12,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
 
   useEffect(() => {
     if (isOpen) {
-      const storedKey = sessionStorage.getItem('prepdesk_custom_api_key') || '';
+      const storedKey = localStorage.getItem('prepdesk_custom_api_key') || '';
       setApiKey(storedKey);
       setSavedSuccess(false);
     }
@@ -23,9 +23,9 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
     if (apiKey.trim()) {
-      sessionStorage.setItem('prepdesk_custom_api_key', apiKey.trim());
+      localStorage.setItem('prepdesk_custom_api_key', apiKey.trim());
     } else {
-      sessionStorage.removeItem('prepdesk_custom_api_key');
+      localStorage.removeItem('prepdesk_custom_api_key');
     }
     setSavedSuccess(true);
     setTimeout(() => {
@@ -35,7 +35,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
   };
 
   const handleClear = () => {
-    sessionStorage.removeItem('prepdesk_custom_api_key');
+    localStorage.removeItem('prepdesk_custom_api_key');
     setApiKey('');
     setSavedSuccess(true);
     setTimeout(() => {

@@ -17,6 +17,7 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
   const [jobDescription, setJobDescription] = useState(initialBrief.jobDescription || '');
   const [resumeText, setResumeText] = useState(initialBrief.resumeText || '');
   const [fileName, setFileName] = useState(initialBrief.resumeFileName || '');
+  const [customApiKey, setCustomApiKey] = useState(() => localStorage.getItem('prepdesk_custom_api_key') || '');
   const [isLoading, setIsLoading] = useState(false);
   const [statusIndex, setStatusIndex] = useState(0);
   const [dragActive, setDragActive] = useState(false);
@@ -35,7 +36,7 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
     reader.onload = (e) => {
       const content = e.target?.result as string;
       if (content) {
-        setResumeText(content.slice(0, 3000));
+        setResumeText(content.slice(0, 12000));
       }
     };
     reader.readAsText(file);
@@ -80,14 +81,24 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
       });
     }, 1500);
 
+    // Persist API Key in localStorage
+    if (customApiKey.trim()) {
+      localStorage.setItem('prepdesk_custom_api_key', customApiKey.trim());
+    } else {
+      localStorage.removeItem('prepdesk_custom_api_key');
+    }
+
     try {
-      const customApiKey = sessionStorage.getItem('prepdesk_custom_api_key') || '';
+      const activeKey = customApiKey.trim() || localStorage.getItem('prepdesk_custom_api_key') || '';
 
       const res = await fetch('/api/generate-prep', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': activeKey,
+        },
         body: JSON.stringify({
-          apiKey: customApiKey,
+          apiKey: activeKey,
           companyName: effectiveCompany,
           jobTitle: effectiveRole,
           jobDescription: effectiveJd,
@@ -286,6 +297,37 @@ export const CandidateBriefForm: React.FC<CandidateBriefFormProps> = ({
                   placeholder="Or paste your resume key achievements here..."
                   className="w-full bg-[#ffffff] text-[#131e18] font-body-md border border-[#727973]/20 rounded-sm px-3 py-2 text-sm outline-none transition-all focus:border-[#835411]"
                 />
+              </div>
+
+              {/* API Key Configuration Section */}
+              <div className="bg-[#f0fdf3] border border-[#183828]/20 rounded-sm p-4 flex flex-col gap-2">
+                <div className="flex items-center justify-between">
+                  <label htmlFor="form-api-key" className="font-headline-md text-xs font-bold text-[#183828] flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-[16px] text-[#835411]">key</span>
+                    <span>Gemini API Key (Custom / Server Default)</span>
+                  </label>
+                  <span className="font-mono text-[10px] text-[#835411] font-semibold bg-[#fdbd71]/20 px-2 py-0.5 rounded-xs">
+                    {customApiKey ? '🔑 Custom Key Provided' : '⚡ Server Default Active'}
+                  </span>
+                </div>
+                <input
+                  id="form-api-key"
+                  type="password"
+                  value={customApiKey}
+                  onChange={(e) => {
+                    setCustomApiKey(e.target.value);
+                    if (e.target.value.trim()) {
+                      localStorage.setItem('prepdesk_custom_api_key', e.target.value.trim());
+                    } else {
+                      localStorage.removeItem('prepdesk_custom_api_key');
+                    }
+                  }}
+                  placeholder="Paste your Gemini API key (AIzaSy...) or leave blank to use platform default"
+                  className="w-full bg-[#ffffff] text-xs font-mono text-[#131e18] border border-[#727973]/30 rounded-sm px-3 py-2 outline-none transition-all focus:border-[#835411]"
+                />
+                <p className="text-[11px] text-[#424843]">
+                  Your API key is stored locally in your browser and sent directly to Gemini for hyper-customized AI generation.
+                </p>
               </div>
 
               {/* Submit Action */}

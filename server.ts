@@ -385,13 +385,34 @@ JSON Structure:
 }
 `;
 
-        const response = await ai.models.generateContent({
-          model: 'gemini-3.6-flash',
-          contents: prompt,
-          config: {
-            responseMimeType: 'application/json',
-          },
-        });
+        console.log(`Executing Gemini AI generation for target company: "${companyName}", role: "${jobTitle}", key length: ${effectiveKey.trim().length}`);
+
+        const modelsToTry = ['gemini-3.6-flash', 'gemini-2.0-flash'];
+        let response = null;
+        let lastErr = null;
+
+        for (const modelName of modelsToTry) {
+          try {
+            response = await ai.models.generateContent({
+              model: modelName,
+              contents: prompt,
+              config: {
+                responseMimeType: 'application/json',
+              },
+            });
+            if (response && response.text) {
+              console.log(`Successfully generated content using model: ${modelName}`);
+              break;
+            }
+          } catch (err: any) {
+            lastErr = err;
+            console.warn(`Attempt with ${modelName} failed:`, err?.message || err);
+          }
+        }
+
+        if (!response || !response.text) {
+          throw lastErr || new Error('No response generated from Gemini models');
+        }
 
         const rawText = response.text || '';
         const cleanJson = rawText
@@ -472,13 +493,28 @@ Example format for qa-bank:
 ]
 `;
 
-        const response = await ai.models.generateContent({
-          model: 'gemini-3.6-flash',
-          contents: prompt,
-          config: {
-            responseMimeType: 'application/json',
-          },
-        });
+        const modelsToTry = ['gemini-3.6-flash', 'gemini-2.0-flash'];
+        let response = null;
+        let lastErr = null;
+
+        for (const modelName of modelsToTry) {
+          try {
+            response = await ai.models.generateContent({
+              model: modelName,
+              contents: prompt,
+              config: {
+                responseMimeType: 'application/json',
+              },
+            });
+            if (response && response.text) break;
+          } catch (err: any) {
+            lastErr = err;
+          }
+        }
+
+        if (!response || !response.text) {
+          throw lastErr || new Error('Failed generating section content');
+        }
 
         const rawText = response.text || '';
         const cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();

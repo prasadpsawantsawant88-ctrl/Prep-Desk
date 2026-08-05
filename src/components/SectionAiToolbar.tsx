@@ -29,7 +29,7 @@ export const SectionAiToolbar: React.FC<SectionAiToolbarProps> = ({
     setStatusMsg(`Gemini AI analyzing CV & JD for ${role}...`);
 
     try {
-      const customApiKey = sessionStorage.getItem('prepdesk_custom_api_key') || '';
+      const customApiKey = localStorage.getItem('prepdesk_custom_api_key') || '';
 
       const res = await fetch('/api/generate-section', {
         method: 'POST',
