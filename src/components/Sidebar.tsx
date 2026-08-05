@@ -54,9 +54,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex items-center justify-between">
             {!collapsed ? (
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-sm bg-[#835411] text-white flex items-center justify-center font-bold font-serif text-lg shadow-sm">
-                  P
-                </div>
+                <img
+                  src="/logo.svg"
+                  alt="Prep Desk Logo"
+                  className="w-9 h-9 rounded-sm object-cover border border-[#fdbd71]/40 shadow-xs"
+                  referrerPolicy="no-referrer"
+                />
                 <div>
                   <h1 className="font-display-md text-base font-bold text-white tracking-wide">
                     PREP DESK
@@ -67,9 +70,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 </div>
               </div>
             ) : (
-              <div className="w-10 h-10 mx-auto rounded-sm bg-[#835411] text-white flex items-center justify-center font-bold font-serif text-xl">
-                P
-              </div>
+              <img
+                src="/logo.svg"
+                alt="Prep Desk Logo"
+                className="w-10 h-10 mx-auto rounded-sm object-cover border border-[#fdbd71]/40 shadow-xs"
+                referrerPolicy="no-referrer"
+              />
             )}
 
             {/* Desktop Collapse Toggle */}

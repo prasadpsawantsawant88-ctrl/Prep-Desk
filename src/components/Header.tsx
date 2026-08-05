@@ -35,9 +35,14 @@ export const Header: React.FC<HeaderProps> = ({
 
           <button
             onClick={() => setActiveView('desk')}
-            className="border border-[#835411]/40 px-3 py-1 rounded-sm shadow-xs bg-[#ffffff] hover:bg-[#eaf7ed] transition-all flex items-center gap-2 group cursor-pointer"
+            className="border border-[#835411]/40 px-2.5 py-1 rounded-sm shadow-xs bg-[#ffffff] hover:bg-[#eaf7ed] transition-all flex items-center gap-2 group cursor-pointer"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#835411] group-hover:scale-125 transition-transform"></span>
+            <img
+              src="/logo.svg"
+              alt="Prep Desk"
+              className="w-5 h-5 rounded-xs object-cover"
+              referrerPolicy="no-referrer"
+            />
             <span className="font-label-caps text-[12px] text-[#835411] tracking-widest font-bold">
               PREP DESK
             </span>
