@@ -1,0 +1,6 @@
+{
+  "name": "Prep Desk",
+  "description": "Personal interview preparation companion with structured material, answer practice, and readiness tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
